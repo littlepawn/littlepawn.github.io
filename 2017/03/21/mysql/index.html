@@ -1,0 +1,41 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="pawn"><title>mysql函数及语法 · 小丝の随笔</title><meta name="description" content="####函数
+
+find_in_set (search string, string list) | Name|    Description| | :——– | :——–:| | search string| A string which is to be looked for in follow"><meta name="keywords" content="Hexo,HTML,php,linux"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">小丝の随笔</a></h3><div class="description"><p>Nothing lasts forever.</p></div></div></div><ul class="social-links"><li><a href="http://weibo.com/u/3547528514/"><i class="fa fa-weibo"></i></a></li></ul><div class="footer"><a target="_blank" href="/"><span>Author by </span></a><a target="_blank" href="/"> Pawn</a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/about">关于</a></li><li><a href="/archives">归档</a></li><li><a href="/links">友链</a></li></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" class="fa fa-chevron-left"> </a></li></div><div class="avatar"><img src="http://182.254.245.16/timg.jpg"></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>mysql函数及语法</a></h3></div><div class="post-content"><p>####函数</p>
+<ol>
+<li><p>find_in_set (search string, string list)<br> | Name|    Description|<br> | :——– | :——–:|<br> | search string| A string which is to be looked for in following a list of arguments. |<br> | string list| List of strings to be searched if they contain the search string. |</p>
+<blockquote>
+<p>mysql&gt; SELECT FIND_IN_SET(‘ank’,’b,ank,of,monk’);<br>+————————————+<br>| FIND_IN_SET(‘ank’,’b,ank,of,monk’) |<br>+————————————+<br>|                                  2 |<br>+————————————+<br>1 row in set (0.00 sec)</p>
+</blockquote>
+<p> <a href="http://www.w3resource.com/mysql/string-functions/mysql-find_in_set-function.php" target="_blank" rel="external">find_set_in details</a><br> <a href="http://www.111cn.net/database/mysql/50190.htm" target="_blank" rel="external">find_set_in example</a></p>
+</li>
+<li><p>instr(ori_str, sub_str)<br> | Name|    Description|<br> | :——– | :——–:|<br> | ori_str| The string to be searched. |<br> | sub_str| The string to be searched for within the ori_str. |</p>
+<blockquote>
+<p>mysql&gt; SELECT INSTR(‘myteststring’,’st’);<br>+—————————-+<br>| INSTR(‘myteststring’,’st’) |<br>+—————————-+<br>|                          5 |<br>+—————————-+<br>1 row in set (0.03 sec)</p>
+</blockquote>
+<p> <a href="http://www.w3resource.com/mysql/string-functions/mysql-instr-function.php" target="_blank" rel="external">instr details</a></p>
+</li>
+<li><p>substring(str, pos, len)<br> | Name|    Description|<br> | :——– | :——–:|<br> | str| A string.|<br> | pos| Starting position. |<br> | len| Length in characters. |</p>
+<p> <a href="http://www.w3resource.com/mysql/string-functions/mysql-substring-function.php" target="_blank" rel="external">instr details</a><br>####语法</p>
+</li>
+<li><p>表复制</p>
+<ul>
+<li><p>Insert into Select from 语句<br>语句形式为：<figure class="highlight plain"><figcaption><span>into targer_table(field1,field2,...) select value1,value2,... from source_table ```   </span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">要求目标表 targer_table必须存在，由于目标表targer_table已经存在，所以我们除了插入源表source_table的字段外，还可以插入常量</div><div class="line"></div><div class="line">- Select into from语句</div><div class="line">  语句形式为：```SELECT vale1, value2 into targer_tablefrom source_table</div></pre></td></tr></table></figure></p>
+<p>要求目标表Table2不存在，因为在插入时会自动创建表Table2，并将Table1中指定字段数据复制到Table2中</p>
+</li>
+</ul>
+</li>
+<li><p>mysql中常用的三种插入数据的语句:</p>
+<ul>
+<li><p><code>insert into</code>表示插入数据，数据库会检查主键（PrimaryKey），如果出现重复会报错；</p>
+</li>
+<li><p><code>replace into</code>表示插入替换数据，需求表中有PrimaryKey，或者unique索引的话，如果数据库已经存在数据，则用新数据替换，如果没有数据效果则和insert into一样；</p>
+<blockquote>
+<p>replace语句会返回一个数，来指示受影响的行的数目。该数是被删除和被插入的行数的和。如果对于一个单行REPLACE该数为1，则一行被插入，同时没有行被删除。如果该数大于1，则在新行被插入前，有一个或多个旧行被删除。如果表包含多个唯一索引，并且新行复制了在不同的唯一索引中的不同旧行的值，则有可能是一个单一行替换了多个旧行。</p>
+</blockquote>
+</li>
+<li><p><code>insert ignore</code>表示，如果中已经存在相同的记录，则忽略当前新数据；</p>
+</li>
+</ul>
+</li>
+</ol>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2017-03-21</span><i class="fa fa-tag"></i></div></div></div></div><div class="share"><div class="evernote"> <a href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank" class="fa fa-bookmark"></a></div><div class="weibo"> <a href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));" class="fa fa-weibo"></a></div><div class="twitter"> <a href="http://twitter.com/home?status=,http://yoursite.com/2017/03/21/mysql/,小丝の随笔,mysql函数及语法,;" class="fa fa-twitter"></a></div></div><div class="pagination"><ul class="clearfix"><li class="next pagbuttons"><a role="navigation" href="/2017/03/20/php-class-tips/" title="php类相关" class="btn">下一篇</a></li></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>
