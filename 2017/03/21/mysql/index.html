@@ -30,8 +30,10 @@ find_in_set (search string, string list) | Name|    Description| | :——– | 
 <ol>
 <li><p>表复制</p>
 <ul>
-<li><p>Insert into Select from 语句<br>语句形式为：<figure class="highlight plain"><figcaption><span>into targer_table(field1,field2,...) select value1,value2,... from source_table ```   </span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">要求目标表 targer_table必须存在，由于目标表targer_table已经存在，所以我们除了插入源表source_table的字段外，还可以插入常量</div><div class="line"></div><div class="line">- Select into from语句</div><div class="line">  语句形式为：```SELECT vale1, value2 into targer_tablefrom source_table</div></pre></td></tr></table></figure></p>
-<p>要求目标表Table2不存在，因为在插入时会自动创建表Table2，并将Table1中指定字段数据复制到Table2中</p>
+<li><p>Insert into Select from 语句<br>  语句形式为：<br><code>Insert into targer_table(field1,field2,...) select value1,value2,... from source_table</code></p>
+<p> 要求目标表 targer_table必须存在，由于目标表targer_table已经存在，所以我们除了插入源表source_table的字段外，还可以插入常量</p>
+</li>
+<li><p>Select into from语句<br>语句形式为：<code>SELECT vale1, value2 into targer_tablefrom source_table</code><br>要求目标表Table2不存在，因为在插入时会自动创建表Table2，并将Table1中指定字段数据复制到Table2中</p>
 </li>
 </ul>
 </li>
