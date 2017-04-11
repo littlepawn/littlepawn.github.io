@@ -23,9 +23,9 @@ ssh登陆主服务器之后，发现使用tab进行命令自动补全的时候�
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">vi auto-del-30-days-ago-log.sh</div><div class="line">编辑auto-del-30-days-ago-log.sh文件如下：</div><div class="line">#!/bin/sh</div><div class="line">find /opt/soft/log/ -mtime +30 -name &quot;*.log&quot; -exec rm -rf &#123;&#125; \;</div><div class="line">ok，保存退出(:wq)</div></pre></td></tr></table></figure>
 </li>
 <li><p>计划任务</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">#crontab -e</div><div class="line">将auto-del-30-days-ago-log.sh执行脚本加入到系统计划任务，到点自动执行</div><div class="line">输入：</div><div class="line">10 0 * * * /opt/soft/log/auto-del-7-days-ago-log.sh &gt;/dev/null 2&gt;&amp;1</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">#crontab -e</div><div class="line">将auto-del-30-days-ago-log.sh执行脚本加入到系统计划任务，到点自动执行</div><div class="line">输入：</div><div class="line">10 0 * * * /opt/soft/log/auto-del-30-days-ago-log.sh &gt;/dev/null 2&gt;&amp;1</div></pre></td></tr></table></figure>
 <blockquote>
-<p>这里的设置是每天凌晨0点10分执行auto-del-7-days-ago-log.sh文件进行数据清理任务了。</p>
+<p>这里的设置是每天凌晨0点10分执行auto-del-30-days-ago-log.sh文件进行数据清理任务了。</p>
 </blockquote>
 </li>
 </ul>
