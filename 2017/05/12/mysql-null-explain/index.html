@@ -1,0 +1,50 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="littlepawn" content="littlepawn's blog"><meta name="baidu-site-verification" content="W0aKF0MX6S" /><title>Mysql的NULL值和‘’值分析 · 小丝の随笔</title><meta name="description" content="我在数据库中新建了一个test表，里面有id,name两个字段
+现在该表有下列三条数据:
+
++—-+——-+
+| id | name  |
++----+-------+
+|  1 | jason |
+|  2 | mark  |
+|  3 | NULL  |
++----+-------+
+
+
+sel"><meta name="keywords" content="Hexo,HTML,php,linux"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">小丝の随笔</a></h3><div class="description"><p>It's never too late.</p></div></div></div><ul class="social-links"><li><a href="http://weibo.com/u/3547528514/"><i class="fa fa-weibo"></i></a></li></ul><div class="footer"><a target="_blank" href="/"><span>Author by </span></a><a target="_blank" href="/"> Pawn</a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/about">关于</a></li><li><a href="/archives">归档</a></li><li><a href="/links">友链</a></li></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" class="fa fa-chevron-left"> </a></li></div><div class="avatar"><img src="http://182.254.245.16/timg.jpg"></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>Mysql的NULL值和‘’值分析</a></h3></div><div class="post-content"><ol>
+<li>我在数据库中新建了一个test表，里面有<code>id</code>,<code>name</code>两个字段</li>
+<li><p>现在该表有下列三条数据:</p>
+<blockquote>
+<p>+—-+——-+</p>
+<pre><code>| id | name  |
++----+-------+
+|  1 | jason |
+|  2 | mark  |
+|  3 | NULL  |
++----+-------+
+</code></pre></blockquote>
+</li>
+<li><p><code>select * from test where name=NULL;</code>结果是<code>Empty set</code>;<code>select * from test where name=&#39;&#39;;</code>结果同样是<code>Empty set</code>;</p>
+<ul>
+<li>mysql对NULL的查询需要用is NULL,is not NULL来判断</li>
+</ul>
+</li>
+<li><code>select * from test where id not in (1,Null);</code>结果是<code>Empty set</code>;<br>[等价于<code>select * from test wehre not (id=1 or id=NUll</code>]<ul>
+<li>id目前三个值的分析<ul>
+<li>id=1 =&gt; not (true or null) =&gt; not (true) =&gt;false</li>
+<li>id=2 =&gt; not (false or null) =&gt; not (null) =&gt; null</li>
+<li>id=3 =&gt; not (false or null) =&gt; not (null) =&gt; null</li>
+</ul>
+</li>
+<li>注意点：sql中<code>任意值=NULL</code>,<code>任意值!=NULL</code>,<code>false or NULL</code>,<code>not NULL</code>的结果均为<code>NULL</code>.</li>
+<li>正确语句：<code>select * from test where not (id=1 or id is Null);</code></li>
+</ul>
+</li>
+<li>这条就是跟‘’值比较的问题<ul>
+<li><code>if(name is not NULL or name &lt;&gt; &quot;&quot;)</code>对于这个我们分别给<code>name</code>赋值<code>NULL</code>和<code>&quot;&quot;</code></li>
+<li>当<code>name</code>为<code>NULL</code>时，<code>if(false or null)</code> =&gt; <code>if (NULL)</code>，不会进入判断</li>
+<li>当<code>name</code>为<code>&quot;&quot;</code>时，<code>if(true or false)</code> =&gt; <code>if (true)</code>，进入判断</li>
+<li>所以遇到这种判断要谨慎处理，可以改成<code>if(name is not NULL and name &lt;&gt; &quot;&quot;)</code></li>
+</ul>
+</li>
+</ol>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2017-05-12</span><i class="fa fa-tag"></i><a href="/tags/mysql/" title="mysql" class="tag">mysql </a></div></div></div></div><div class="share"><div class="evernote"> <a href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank" class="fa fa-bookmark"></a></div><div class="weibo"> <a href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));" class="fa fa-weibo"></a></div><div class="twitter"> <a href="http://twitter.com/home?status=,http://yoursite.com/2017/05/12/mysql-null-explain/,小丝の随笔,Mysql的NULL值和‘’值分析,;" class="fa fa-twitter"></a></div></div><div class="pagination"><ul class="clearfix"><li class="next pagbuttons"><a role="navigation" href="/2017/04/14/mysql-explain/" title="mysql explain分析" class="btn">下一篇</a></li></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>
